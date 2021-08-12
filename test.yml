@@ -1,6 +1,6 @@
 ---
 - name: Ensure inventory vars are set to the same value as the inventory_hostname has (close to pre Ansible 2.4 behaviour)
   add_host:
-    hostname: webservers
+    hostname: webserver
     inventory_dir: '{{ ./hosts.ini }}'
 

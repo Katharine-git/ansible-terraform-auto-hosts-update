@@ -1,6 +1,11 @@
 ---
-- name: Ensure inventory vars are set to the same value as the inventory_hostname has (close to pre Ansible 2.4 behaviour)
-  add_host:
-    hostname: webserver
-    inventory_dir: '{{ ./hosts.ini }}'
-
+- name: Refresh Host Inventory at Runtime and Add a Pause while Executing Playbook
+  hosts: webserver
+  connection: ssh
+  gather_facts: True
+ 
+  tasks:
+    - meta: refresh_inventory
+ 
+    - pause:
+        minutes: 1

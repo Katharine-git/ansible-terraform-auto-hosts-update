@@ -1,9 +1,9 @@
----
+--- 
+- name: Refresh Host Inventory at Runtime and Add a Pause while Executing Playbook
+  hosts: localhost
   vars: 
     hostpath: "./hosts.ini"
     hoststring: "ansible_user=ec2-user"
-- name: Refresh Host Inventory at Runtime and Add a Pause while Executing Playbook
-  hosts: localhost
   connection: ssh
   gather_facts: True
   lineinfile: dest={{ hostpath }}

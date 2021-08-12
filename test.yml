@@ -1,8 +1,16 @@
 ---
+  vars: 
+    hostpath: "./hosts.ini"
+    hoststring: "ansible_user=ec2-user"
 - name: Refresh Host Inventory at Runtime and Add a Pause while Executing Playbook
-  hosts: webserver
+  hosts: localhost
   connection: ssh
   gather_facts: True
+  lineinfile: dest={{ hostpath }}
+              regexp={{ item.public_ip }} 
+              insertafter="[webserver]" 
+              line="{{ item.public_ip }} {{hoststring}}"
+              state=present
  
   tasks:
     - meta: refresh_inventory

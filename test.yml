@@ -1,28 +1,6 @@
 ---
-- name: test
-  hosts: centos
-  vars:
-    hostpath: "./hosts.ini"
-    hoststring: "ansible_user=ec2-user"
-  tasks:
-    - name: Add the newly created EC2 instance(s) to host group
-      lineinfile: dest={{ hostpath }}
-                  regexp={{ item.public_ip }} 
-                  insertafter="[webserver]" 
-                  line="{{ item.public_ip }} {{hoststring}}"
-                  state=present
-      with_items: "{{ec2.instances}}"
-      
-    - wait_for: path={{ hostpath }} search_regex={{hoststring}}
-
-    - name: Wait for SSH to come up
-      local_action: wait_for 
-                    host={{ item.public_ip }} 
-                    port=22 
-                    state=started
-      with_items: "{{ec2.instances}}"
-
-    - name: Add IP to ec2_hosts group
-      add_host: hostname={{ item.public_ip }} groups=ec2_hosts
-      with_items: "{{ec2.instances}}"
+- name: Ensure inventory vars are set to the same value as the inventory_hostname has (close to pre Ansible 2.4 behaviour)
+  add_host:
+    hostname: webservers
+    inventory_dir: '{{ ./hosts.ini }}'
 
